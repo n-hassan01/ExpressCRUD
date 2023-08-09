@@ -1,18 +1,23 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
-const users = require('./userInfo');
+const pool = require('./dbConnection');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log(users);
-    res.send(users);
+    pool.query('Select * from employee;', (error, results) => {
+        if (error) throw error;
+
+        res.status(200).json(results.rows);
+    });
 });
 
 router.get('/:id', (req, res) => {
-    const user = users.find((c) => c.id === parseInt(req.params.id, 10));
-    if (!user) res.status(404).send('User not found for the given id');
-    res.send(user);
+    pool.query(`Select * from employee where id = ${req.params.id};`, (error, results) => {
+        if (error) throw error;
+
+        res.status(200).json(results.rows);
+    });
 });
 
 module.exports = router;

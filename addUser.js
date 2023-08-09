@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
 const Joi = require('joi');
 const express = require('express');
-const users = require('./userInfo');
+const pool = require('./dbConnection');
 
 const router = express.Router();
 
 router.post('/', (req, res) => {
     const schema = Joi.object({
         name: Joi.string().required(),
-        phone: Joi.string().min(11),
+        designation: Joi.string(),
     });
+    const { name, designation } = req.body;
     const validation = schema.validate(req.body);
 
     if (validation.error) {
@@ -17,14 +18,11 @@ router.post('/', (req, res) => {
         return;
     }
 
-    const user = {
-        id: users.length + 1,
-        name: req.body.name,
-        phone: req.body.phone,
-    };
-    users.push(user);
+    pool.query('insert into employee(name, designation) values($1, $2) RETURNING *', [name, designation], (error, results) => {
+        if (error) throw error;
 
-    res.send(users);
+        res.status(200).send(`Successfully added ${results.rows[0].name} to the employee list!`);
+    });
 });
 
 module.exports = router;

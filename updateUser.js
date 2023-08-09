@@ -1,33 +1,28 @@
 /* eslint-disable prettier/prettier */
 const Joi = require('joi');
 const express = require('express');
-const users = require('./userInfo');
+const pool = require('./dbConnection');
 
 const router = express.Router();
 
 router.put('/:id', (req, res) => {
-    const user = users.find((c) => c.id === parseInt(req.params.id, 10));
-    if (!user) res.status(404).send('User not found for the given id');
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        designation: Joi.string(),
+    });
+    const id = parseInt(req.params.id, 10);
+    const { name, designation } = req.body;
+    const validation = schema.validate(req.body);
 
-    if (req.body.name) {
-        user.name = req.body.name;
+    if (validation.error) {
+        res.status(400).send('Invalid inputs');
     }
 
-    if (req.body.phone) {
-        const schema = Joi.object({
-            phone: Joi.string().min(11),
-        });
-        const validation = schema.validate(req.body);
+    pool.query('UPDATE employee SET name = $1, designation = $2 WHERE id = $3', [name, designation, id], (error) => {
+        if (error) throw error;
 
-        if (validation.error) {
-            res.status(400).send('Invalid inputs');
-            return;
-        }
-
-        user.phone = req.body.phone;
-    }
-
-    res.send(user);
+        res.send('Successfully updated the information of the employee!');
+    });
 });
 
 module.exports = router;
