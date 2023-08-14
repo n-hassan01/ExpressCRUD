@@ -5,7 +5,7 @@ const pool = require('./dbConnection');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    pool.query('Select * from employee;', (error, results) => {
+    pool.query('SELECT * FROM employee ORDER BY id ASC;', (error, results) => {
         if (error) throw error;
 
         res.status(200).json(results.rows);
