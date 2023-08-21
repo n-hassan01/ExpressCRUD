@@ -1,10 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const getUsersRouter = require('./getUsers');
-const addUsersRouter = require('./addUser');
-const deleteUsersRouter = require('./deleteUser');
-const updateUsersRouter = require('./updateUser');
+const getUsersRouter = require('./controllers/getUsers');
+const addUsersRouter = require('./controllers/addUser');
+const deleteUsersRouter = require('./controllers/deleteUser');
+const updateUsersRouter = require('./controllers/updateUser');
 
 const app = express();
 

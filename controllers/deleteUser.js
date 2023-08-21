@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
-const pool = require('./dbConnection');
+const pool = require('../dbConnection');
 
 const router = express.Router();
 
