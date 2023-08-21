@@ -21,11 +21,13 @@ app.use((req, res, next) => {
     next('Requested url not found!');
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     if (err.message) {
         res.status(500).send(err.message);
+        next();
     } else {
         res.status(500).send('Server side error!');
+        next();
     }
 });
 
