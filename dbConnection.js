@@ -4,8 +4,6 @@ const { Pool } = require('pg');
 
 const dbName = process.env.DB_NAME;
 const dbPassword = process.env.DB_PASSWORD;
-console.log(dbName);
-console.log(dbPassword);
 
 const pool = new Pool({
   user: 'postgres',
