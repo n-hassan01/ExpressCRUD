@@ -6,6 +6,11 @@ const pool = require('../dbConnection');
 const router = express.Router();
 
 router.post('/', (req, res) => {
+    if (!(req.role === '1')) {
+        res.status(403).send('Forbidden');
+        return;
+    }
+
     const schema = Joi.object({
         name: Joi.string().required(),
         designation: Joi.string(),
