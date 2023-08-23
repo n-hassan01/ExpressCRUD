@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/login', loginRouter);
+app.use('/users/login', loginRouter);
 app.use('/users', getUsersRouter);
 app.use('/users/add', checkLogin, addUsersRouter);
 app.use('/users/delete', checkLogin, deleteUsersRouter);
