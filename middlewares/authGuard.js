@@ -6,6 +6,11 @@ const authGuard = (req, res, next) => {
     try {
         const token = authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+
+        if (!decodedToken) {
+            res.status(403).send('Forbidden!');
+        }
+
         const { username, role } = decodedToken;
         req.username = username;
         req.role = role;
