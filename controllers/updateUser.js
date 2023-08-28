@@ -5,6 +5,11 @@ const pool = require('../dbConnection');
 const router = express.Router();
 
 router.put('/:id', (req, res) => {
+    if (!(req.role === '1')) {
+        res.status(403).send('Forbidden');
+        return;
+    }
+
     const id = parseInt(req.params.id, 10);
     const { name, designation } = req.body;
 
