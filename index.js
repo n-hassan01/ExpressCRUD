@@ -9,6 +9,7 @@ const updateUsersRouter = require('./controllers/updateUser');
 const loginRouter = require('./controllers/loginService');
 const logoutRouter = require('./controllers/logout');
 const checkLogin = require('./middlewares/authGuard');
+const addBrands = require('./controllers/addBrands');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/users/add', checkLogin, addUsersRouter);
 app.use('/users/delete', checkLogin, deleteUsersRouter);
 app.use('/users/update', checkLogin, updateUsersRouter);
 app.use('/users/logout', checkLogin, logoutRouter);
+app.use('/brands/add', checkLogin, addBrands);
 
 // error handling middleware
 app.use((req, res, next) => {
