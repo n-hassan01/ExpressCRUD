@@ -10,6 +10,7 @@ const loginRouter = require('./controllers/loginService');
 const logoutRouter = require('./controllers/logout');
 const checkLogin = require('./middlewares/authGuard');
 const addBrands = require('./controllers/addBrands');
+const fileUpload = require('./controllers/fileUpload');
 
 const app = express();
 
@@ -23,7 +24,8 @@ app.use('/users/add', checkLogin, addUsersRouter);
 app.use('/users/delete', checkLogin, deleteUsersRouter);
 app.use('/users/update', checkLogin, updateUsersRouter);
 app.use('/users/logout', checkLogin, logoutRouter);
-app.use('/brands/add', checkLogin, addBrands);
+app.use('/brands/add', addBrands);
+app.use('/brands/logo/upload', fileUpload);
 
 // error handling middleware
 app.use((req, res, next) => {
@@ -31,8 +33,6 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    console.log('middleware');
-
     if (err.message) {
         res.status(500).send(err.message);
     } else {
